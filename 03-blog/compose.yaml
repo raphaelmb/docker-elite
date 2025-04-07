@@ -1,0 +1,38 @@
+services:
+  app:
+    container_name: blog_app
+    image: wordpress
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: blog
+    volumes:
+      - app_volume:/var/www/html
+    networks:
+      - blog_network
+    depends_on:
+      - database
+
+  database:
+    container_name: blog_database
+    image: mysql
+    volumes:
+      - database_volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: blog 
+      MYSQL_USER: mysql 
+      MYSQL_PASSWORD: mysql
+    networks:
+      - blog_network
+
+volumes:
+  app_volume:
+  database_volume:
+
+networks:
+  blog_network:
+    driver: bridge
