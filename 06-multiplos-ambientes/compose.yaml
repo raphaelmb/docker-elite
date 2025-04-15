@@ -1,0 +1,23 @@
+services: 
+  postgre: 
+    image: postgres:13.16 
+    restart: always 
+    env_file:
+      - ./.dev.env
+    ports: 
+      - "${DB_PORT:-5432}:5432"
+    volumes: 
+      - "postgre_data:/var/lib/postgresql/data"
+
+  ecommerce: 
+    image: fabricioveronez/fake-shop 
+    restart: always 
+    env_file:
+      - ./.dev.env
+    ports: 
+      - "5000:5000" 
+    depends_on: 
+      - postgre
+
+volumes: 
+  postgre_data: 
