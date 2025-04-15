@@ -9,12 +9,12 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: blog
+    depends_on:
+      - database
     volumes:
       - app_volume:/var/www/html
     networks:
       - blog_network
-    depends_on:
-      - database
 
   database:
     container_name: blog_database
